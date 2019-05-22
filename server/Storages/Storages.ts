@@ -1,5 +1,6 @@
 import { GDrive } from './GDrive/GDrive';
 import { Mega } from './Mega/Mega';
+import { Fshare } from './Fshare/Fshare';
 
 export class Storages {
     static storages = {
@@ -10,6 +11,10 @@ export class Storages {
         "Mega": {
             "displayName": "Mega",
             "class": Mega
+        },
+        "Fshare": {
+            "displayName": "Fshare",
+            "class": Fshare
         }
         //Add more storages here
     };

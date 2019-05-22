@@ -13,15 +13,15 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 exports.__esModule = true;
-var mega = require("mega");
+var fshare = require("fshare");
 var FILE = require("fs-extra");
 var path = require("path");
 var mime = require("mime");
-var debug = require("debug")("eMCloud::Mega");
+var debug = require("debug")("eMCloud::Fshare");
 var events_1 = require("events");
-var Mega = /** @class */ (function (_super) {
-    __extends(Mega, _super);
-    function Mega(credentials) {
+var Fshare = /** @class */ (function (_super) {
+    __extends(Fshare, _super);
+    function Fshare(credentials) {
         var _this = _super.call(this) || this;
         _this.stack = [];
         _this.stackProcessing = false;
@@ -29,16 +29,16 @@ var Mega = /** @class */ (function (_super) {
         return _this;
         //store credentials, they can be username/password or OAuth Tokens etc.
     }
-    Mega.getURL = function () {
+    Fshare.getURL = function () {
         //return the url on which the user will be redirected for credentials, can be OAuth Consent Page or a page on server itself.
-        return "/login/Mega";
+        return "/login/Fshare";
     };
-    Mega.callbackHandler = function (query, callback) {
+    Fshare.callbackHandler = function (query, callback) {
         //handle the recieved credentials, 'query' contains the GET params. (like for OAuth, authentication code is 'query.code')
         //after successfull authenticaltion, return creds to 'callback' to be stored as session variable
         //if authentication fails, call the callback as: callback(0)
         // when user requests a file upload, credentials from session will be used to initialize this class (the constructor will be called)
-        var storage = mega({ email: query.username, password: query.password, keepalive: false }, function (err) {
+        var storage = fshare({ email: query.username, password: query.password, keepalive: false }, function (err) {
             if (err) {
                 debug("Error: " + err);
                 callback(0);
@@ -48,13 +48,13 @@ var Mega = /** @class */ (function (_super) {
             callback({ email: query.username, password: query.password });
         });
     };
-    Mega.prototype.uploadFile = function (readStream, totalSize, mime, filename, parent, callback) {
+    Fshare.prototype.uploadFile = function (readStream, totalSize, mime, filename, parent, callback) {
         //handle the upload procedure
         //it should emit => progress        : {name,uploaded,size}
         //                  fileUploaded    : {size, name , error}
         debug('Uploading file %s ', filename);
         var self = this;
-        var storage = mega({ email: this.creds.email, password: this.creds.password, keepalive: false }, function (err) {
+        var storage = fshare({ email: this.creds.email, password: this.creds.password, keepalive: false }, function (err) {
             if (err) {
                 self.emit("fileUploaded", {
                     error: err
@@ -98,10 +98,10 @@ var Mega = /** @class */ (function (_super) {
             callback();
         });
     };
-    Mega.prototype.makeDir = function (name, callback, parent) {
+    Fshare.prototype.makeDir = function (name, callback, parent) {
         debug("Creating Directory %s", name);
         var self = this;
-        var storage = mega({ email: this.creds.email, password: this.creds.password, keepalive: false }, function (err) {
+        var storage = fshare({ email: this.creds.email, password: this.creds.password, keepalive: false }, function (err) {
             if (err) {
                 self.emit("fileUploaded", {
                     error: err
@@ -113,7 +113,7 @@ var Mega = /** @class */ (function (_super) {
             callback(r);
         });
     };
-    Mega.prototype.uploadStack = function () {
+    Fshare.prototype.uploadStack = function () {
         var _this = this;
         if (this.stack.length > 0) {
             this.stackProcessing = true;
@@ -132,7 +132,7 @@ var Mega = /** @class */ (function (_super) {
             this.stackProcessing = false;
         }
     };
-    Mega.prototype.uploadDir = function (folderPath, parent) {
+    Fshare.prototype.uploadDir = function (folderPath, parent) {
         var _this = this;
         //upload a local directory
         //should emit    => addSize    : size      size in bytes to be added to total upload size
@@ -172,6 +172,6 @@ var Mega = /** @class */ (function (_super) {
             }
         });
     };
-    return Mega;
+    return Fshare;
 }(events_1.EventEmitter));
-exports.Mega = Mega;
+exports.Fshare = Fshare;

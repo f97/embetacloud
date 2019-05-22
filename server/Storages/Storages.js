@@ -2,6 +2,7 @@
 exports.__esModule = true;
 var GDrive_1 = require("./GDrive/GDrive");
 var Mega_1 = require("./Mega/Mega");
+var Fshare_1 = require("./Fshare/Fshare");
 var Storages = /** @class */ (function () {
     function Storages() {
     }
@@ -36,10 +37,13 @@ var Storages = /** @class */ (function () {
         "Mega": {
             "displayName": "Mega",
             "class": Mega_1.Mega
+        },
+        "Fshare": {
+            "displayName": "Fshare",
+            "class": Fshare_1.Fshare
         }
         //Add more storages here
     };
     return Storages;
 }());
 exports.Storages = Storages;
-//# sourceMappingURL=Storages.js.map
