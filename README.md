@@ -42,10 +42,13 @@ npm start
 <i>Heroku is no longer supported.</i>
 
 <h2> For Docker: </h2>
-`docker run -d -p 3000:3000 -e GOOGLE_CLIENT_ID='***' 
+
+```
+docker run -d -p 3000:3000 -e GOOGLE_CLIENT_ID='***' 
 -e GOOGLE_CLIENT_SECRET='***' 
 -e GOOGLE_REDIRECT_URL='***'
-mrigank11/embetacloud node server/server.js`
+mrigank11/embetacloud node server/server.js
+```
 
 Fill `***` with appropriate values.
 
